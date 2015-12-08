@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+    
+  {% block head %}
+  {% endblock %}
+
+  <!-- Standard design and scripts -->
+  <script src="//code.jquery.com/jquery-2.1.4.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src='//www.google.com/jsapi'></script>
+  <script type="text/javascript">
+      google.load('visualization', '1', { 'packages': ['corechart','geochart'] });
+  </script>  
+  
+  <link href='http://fonts.googleapis.com/css?family=Poiret+One|Karma' rel='stylesheet' type='text/css'>
+  <style>
+    header { background: linear-gradient(to bottom, #4D3491, #443E60); height:150px; }
+    p, li { font:16pt Karma, serif; }   
+    a, a:hover { color:#4D3491; }
+    header h1 { font:50pt bold 'Poiret One', cursive; margin-top:40px }
+    header h1 a, header h1 a:hover { color:white; text-decoration:none; }    
+    h2 { font: 40pt bold 'Poiret One', cursive; }
+    h2 .fa { color:#4D3491; } 
+    ul.home li { list-style-type:none; margin:0px; padding:0px; }
+    ul.home { margin:0px; padding:0px; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1><a href="/">Suave.io Pollz</a></h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {% block content %}
+  {% endblock %}
+
+</body>
+</html>

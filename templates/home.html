@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+{% block head %}
+<title>Pollz - Homepage</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+
+      <ul class="home">
+        {% for item in model %}
+          <li>
+            <h2><i class="fa fa-question-circle"></i>&nbsp;<a href="vote/{{ item.Link }}">{{ item.Title }}</a></h2>
+            <p>{{ item.Question }}</p>
+            <p><a href="vote/{{ item.Link }}">Take the poll</a> |
+               <a href="results/{{ item.Link }}">Show results</a></p>
+          </li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

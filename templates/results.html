@@ -1,0 +1,26 @@
+{% extends "page.html" %}
+{% block head %}
+<title>{{ model.Title }} | Pollz</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{ model.Title }}</h1>
+      <p>{{ model.Question }}</p>
+      
+      <ul>         
+        {% for item in model.Results %}
+          <li>
+            {{ item.Option }} ({{ item.Votes }})
+          </li>
+        {% endfor %}
+      </ul>
+
+      <!-- STEP #6: Once you add a chart to the model, display it here! -->
+      
+    </div>
+  </div>  
+</div>
+{% endblock %}

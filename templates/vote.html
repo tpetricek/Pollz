@@ -1,0 +1,24 @@
+{% extends "page.html" %}
+{% block head %}
+<title>{{ model.Title }} | Pollz</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{ model.Title }}</h1>
+      <p>{{ model.Question }}</p>
+      
+      <ul>         
+        {% for item in model.Options %}
+          <li>
+            <!-- STEP #3: Generate a voting link using the double-brackets syntax -->
+          </li>
+        {% endfor %}
+      </ul>
+
+    </div>
+  </div>  
+</div>
+{% endblock %}
