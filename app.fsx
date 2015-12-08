@@ -1,7 +1,7 @@
 #r "System.Xml.Linq.dll"
 #r "packages/Suave/lib/net40/Suave.dll"
 #r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
-#r "packages/DotLiquid/lib/NET45/DotLiquid.dll"
+#r "packages/DotLiquid/lib/NET40/DotLiquid.dll"
 #r "packages/Suave.DotLiquid/lib/net40/Suave.DotLiquid.dll"
 #r "packages/XPlot.GoogleCharts/lib/net45/XPlot.GoogleCharts.dll"
 #r "packages/Google.DataTable.Net.Wrapper/lib/Google.DataTable.Net.Wrapper.dll"
@@ -21,7 +21,10 @@ open Suave.Http.Writers
 // -------------------------------------------------------------------------------------------------
 
 // Load the different components of the web application (from separate modules)  
-#if INTERACTIVE
+#if DEVENV
+// When building using Visual Studio, the files are already included using 
+// the project file and so we do not want to #load them again.
+#else
 #load "code/data.fs"
 #load "code/home.fs"
 #load "code/vote.fs"

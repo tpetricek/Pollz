@@ -56,13 +56,6 @@ let reloadScript () =
 
 let currentApp = ref (fun _ -> async { return None })
 
-let rec findPort port =
-  let portIsTaken =
-    System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners()
-    |> Seq.exists (fun x -> x.Port = port)
-
-  if portIsTaken then findPort (port + 1) else port
-
 let getLocalServerConfig port =
   { defaultConfig with
       homeFolder = Some __SOURCE_DIRECTORY__
@@ -77,7 +70,7 @@ let reloadAppServer (changedFiles: string seq) =
 
 Target "run" (fun _ ->
   let app ctx = currentApp.Value ctx
-  let port = findPort 8083
+  let port = 8083
   let _, server = startWebServerAsync (getLocalServerConfig port) app
 
   // Start Suave to host it on localhost
