@@ -67,8 +67,8 @@
     <None Include="templates/page.html" />
     <None Include="templates/results.html" />
     <None Include="templates/vote.html" />
-    <Compile Include="code/sample-poll.json" />
-    <Compile Include="code/sample-votes.json" />
+    <None Include="code/sample-poll.json" />
+    <None Include="code/sample-votes.json" />
     <Compile Include="code/data.fs" />
     <Compile Include="code/home.fs" />
     <Compile Include="code/results.fs" />
