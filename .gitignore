@@ -1,7 +1,6 @@
 paket-files
 *.suo
 *.bak
-data/
 packages/
 obj/
 bin/
