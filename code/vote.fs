@@ -19,20 +19,36 @@ open XPlot.GoogleCharts
 // to see what properties they should have. A poll is a collection of
 // options with some other information!
 
-type Option = { TODO1 : int }
+type Option =
+  { Option : string 
+    Index : int }
 
-type Poll = { TODO2 : int }
+type Poll =
+  { Title : string
+    Question : string 
+    Link : string
+    Options : seq<Option> }
 
 // To implement `getOptions`, you can load information about the poll using
 // the existing `Data.loadPoll` function. Then you can use `Array.mapi` 
 // because you'll also need the index of the option (to put into the URL).
 
 let getOptions pollName : Poll = 
-  failwith "Not implemented!"
+  let poll = Data.loadPoll pollName
+  let options = poll.Answers |> Array.mapi (fun i a ->
+      { Option = a; Index = i })
+  { Title = poll.Title
+    Link = pollName
+    Question = poll.Question
+    Options = options }
 
 let part1 =
   pathScan "/vote/%s" (fun name ->
-    DotLiquid.page "vote.html" (getOptions name) )
+    request (fun req ->
+      match req.cookies.TryFind name with
+      | Some _ -> Redirection.FOUND (sprintf "/results/%s" name)
+      | _ -> DotLiquid.page "vote.html" (getOptions name) )) 
+
 
 // ----------------------------------------------------------------------------
 // STEP #4: Now we need to add another Suave web part to handle URLs of the
@@ -44,7 +60,12 @@ let part1 =
 // TODO: Handle "/vote/<name>/<option>" ->
 //    Then: Cast the vote here using Data.castVote!
 //    Then: Redirect to the results page using `Redirection.FOUND "/url/to/redirect"`
-
+let part2 = 
+  pathScan "/vote/%s/%d" (fun (name, vote) ->
+    Data.castVote name vote
+    let ck = { HttpCookie.empty with name=name; value = string vote}
+    Cookie.setCookie ck >>=
+      Redirection.FOUND (sprintf "/results/%s" name))
 
 
 // ----------------------------------------------------------------------------

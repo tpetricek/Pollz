@@ -14,6 +14,7 @@
         {% for item in model.Options %}
           <li>
             <!-- STEP #3: Generate a voting link using the double-brackets syntax -->
+            <a href="/vote/{{ model.Link }}/{{ item.Index }}">{{ item.Option }}</a>
           </li>
         {% endfor %}
       </ul>

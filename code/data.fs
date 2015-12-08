@@ -21,9 +21,11 @@ type PollJson = JsonProvider<"code/sample-poll.json">
 /// we have poll names as the keys and list with all votes.
 type Votes = Map<string, list<int>>
 
+type VotesJson = JsonProvider<"code/sample-votes.json">
+
 /// Load information about specified poll using PollJson.Load
 let loadPoll name : PollJson.Root = 
-  failwith "Not implemented!"
+  PollJson.Load(dataFolder + "/polls/" + name + ".json")
 
 // Define a type `VotesJson` using the `code/sample-votes.json` as
 // the sample file - we can then use this to read `votesFile`
@@ -31,11 +33,12 @@ let loadPoll name : PollJson.Root =
 /// Load information about votes from `votesFile` using 
 /// `VotesJson`. You'll also need the `Map.ofSeq` function!
 let loadVotes() : Votes =
-  failwith "Not implemented!"
+  let votes = VotesJson.Load(votesFile)
+  Map.ofSeq [ for vote in votes -> vote.Poll, List.ofSeq vote.Votes ]
 
 /// Define a global variable that keeps info of the votes 
 /// (Call `loadVotes` once you implemented it!)
-let votes : Votes = Map.empty 
+let mutable votes : Votes = loadVotes()
 
 // ----------------------------------------------------------------------------
 // STEP #4: To implement updating of poll results, we'll make the `votes` 
@@ -48,8 +51,18 @@ let votes : Votes = Map.empty
 // append the new vote to the list and create a new `Votes` value (map) and
 // then assign it to our global `votes` value.
 
+let saveVotes (votes:Votes) =
+  let json =
+    [ for v in votes ->
+        VotesJson.Root(v.Key, Array.ofSeq v.Value).JsonValue ]
+    |> Array.ofSeq
+    |> JsonValue.Array
+  File.WriteAllText(votesFile, json.ToString())
+
 let castVote (poll:string) (option:int) = 
-  failwith "Not implemented!"
+  let current = defaultArg (Map.tryFind poll votes) []
+  votes <- Map.add poll (option::current) votes
+  saveVotes votes
 
 
 // ----------------------------------------------------------------------------
@@ -77,7 +90,3 @@ let ``TUTORIAL DEMO #5`` () =
 
   // And get it as a formatted JSON, which you then need to save to `votesFile`
   json.ToString()
-
-
-let saveVotes (votes:Votes) =
-  failwith "Not implemented!"

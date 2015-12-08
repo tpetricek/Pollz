@@ -19,6 +19,7 @@ open Pollz.Data
 type Poll =
   { Link : string
     Title : string 
+    Votes : int
     Question : string }
 
 // The polls are stored in the following folder
@@ -42,9 +43,18 @@ let ``TUTORIAL DEMO #1`` () =
 
 // You can delee the `TUTORIAL DEMO #1` function and implement the following:
 let homePolls () = 
-  [ { Link = "test"
-      Title = "Fake question"
-      Question = "What is your favourite colour?"} ]
+  [ for f in Directory.GetFiles(pollsFolder) ->
+      let pd = PollJson.Load(f)
+      let link = Path.GetFileNameWithoutExtension(f)
+      let votes = 
+        match Data.votes.TryFind link with
+        | None -> 0
+        | Some v -> Seq.length v
+      { Link = link
+        Title = pd.Title
+        Votes = votes
+        Question = pd.Question } ]
+  |> List.sortBy (fun v -> -1 * v.Votes)    
 
 // When we receive a request to the '/' path, the lambda function is
 // invoked, we load data using the 'homePolls' function and pass it

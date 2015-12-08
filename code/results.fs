@@ -21,6 +21,7 @@ type Answer =
 type Poll =
   { Title : string
     Question : string 
+    Chart : string 
     Results : seq<Answer> }
 
 let ``TUTORIAL DEMO #2`` () = 
@@ -41,12 +42,22 @@ let ``TUTORIAL DEMO #2`` () =
 
 
 // You can delee the `TUTORIAL DEMO #1` function and implement the following:
-let getResults pollName =
-  { Title = "Testing"
-    Question = "What is your favourite color?"
-    Results = 
-        [ { Option = "Yo"; Votes = 2 }
-          { Option = "Nae"; Votes = 5 } ] }
+let getResults pollName =  
+  let votes = defaultArg (Data.votes.TryFind pollName) []  
+  let poll = Data.loadPoll pollName
+
+  let results = poll.Answers |> Array.mapi (fun i a ->
+    let votes = votes |> Seq.filter (fun x -> x = i) |> Seq.length
+    { Option = a; Votes = votes })
+  
+  let chart = 
+    Chart.Pie [ for r in results -> r.Option, r.Votes ]
+
+  { Title = poll.Title
+    Question = poll.Question
+    Chart = chart.InlineHtml
+    Results = results }
+
 
 let part =
   pathScan "/results/%s" (fun name ->

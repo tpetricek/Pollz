@@ -37,6 +37,7 @@ DotLiquid.setTemplatesDir (__SOURCE_DIRECTORY__ + "/templates")
 let app =
   choose
     [ Home.part
+      Vote.part2
       Vote.part1
       Results.part
       RequestErrors.NOT_FOUND "Found no handlers." ]
