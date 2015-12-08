@@ -55,6 +55,10 @@ let part1 =
 // format "/vote/<name>/<option>". Use `pathScan` as in `part1` above. Note
 // that the format string can contain both %d and %s! Once you implement
 // `part2`, go back to `app.fsx` and add `part2` to the top-level routing.
+//
+// Note that the order of web parts matters! The pattern `/vote/<name>`
+// can handle `/vote/<name/<option>` too - but the name will be e.g. `foo/1`
+// and so you need to put `part2` handler BEFORE the `part1` handler!
 // ----------------------------------------------------------------------------
 
 // TODO: Handle "/vote/<name>/<option>" ->
